@@ -1,0 +1,1190 @@
+{
+	"info": {
+		"_postman_id": "1a2021ad-bbc2-4776-97fa-03ec7e02af7b",
+		"name": "issued-device-administration-notification",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "put Phone Provider",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+						"key": "traceId",
+						"value": "<string>"
+					},
+					{
+						"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+						"key": "parentId",
+						"value": "<string>"
+					},
+					{
+						"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+						"key": "consumerId",
+						"value": "<string>"
+					},
+					{
+						"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+						"key": "funcionalidadId",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador del servicio invocado.",
+						"key": "serviceId",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador del módulo de la aplicación consumidora.",
+						"key": "moduloId",
+						"value": "<string>"
+					},
+					{
+						"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+						"key": "channelId",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+						"key": "messageId",
+						"value": "<string>"
+					},
+					{
+						"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+						"key": "timeStamp",
+						"value": "<string>"
+					},
+					{
+						"description": "Código del país donde se originó la transacción.",
+						"key": "countryCode",
+						"value": "<string>"
+					},
+					{
+						"description": "Código del país donde se originó la transacción.",
+						"key": "groupMember",
+						"value": "<string>"
+					},
+					{
+						"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+						"key": "referenceNumber",
+						"value": "<string>"
+					},
+					{
+						"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+						"key": "cardIdType",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador de la red a la que pertenece el usuario.",
+						"key": "netId",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador del usuario que realizó la transacción.",
+						"key": "userId",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador del usuario supervisor que autoriza la transacción.",
+						"key": "supervisorId",
+						"value": "<string>"
+					},
+					{
+						"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+						"key": "deviceId",
+						"value": "<string>"
+					},
+					{
+						"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+						"key": "serverId",
+						"value": "<string>"
+					},
+					{
+						"description": "Código de la sucursal donde se realizó la transacción.",
+						"key": "branchId",
+						"value": "<string>"
+					},
+					{
+						"description": "IP donde se realizo la transacción",
+						"key": "ipOrigen",
+						"value": "<string>"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cardId\": \"100112523\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"T\",\n            \"mobileOperatorCode\": \"C\",\n            \"mobilePhoneNumber\": \"51900000100\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://localhost:9444/localtest/sandbox/issued-device-administration-notification/v1.0/customer/60002427/phone-provider",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "9444",
+					"path": [
+						"localtest",
+						"sandbox",
+						"issued-device-administration-notification",
+						"v1.0",
+						"customer",
+						"60002427",
+						"phone-provider"
+					]
+				},
+				"description": "Retrieve options"
+			},
+			"response": [
+				{
+					"name": "Baq request.",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"status\": {\n  \"code\": \"eiusmod anim magna dolor\",\n  \"description\": \"nostrud quis qui\"\n },\n \"exceptionDetails\": [\n  {\n   \"code\": \"Ut nisi non esse\",\n   \"description\": \"pariatur est Duis veniam deserunt\",\n   \"component\": \"laboris culpa e\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Too Many Requests",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Too Many Requests",
+					"code": 429,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"status\": {\n  \"code\": \"eiusmod anim magna dolor\",\n  \"description\": \"nostrud quis qui\"\n },\n \"exceptionDetails\": [\n  {\n   \"code\": \"Ut nisi non esse\",\n   \"description\": \"pariatur est Duis veniam deserunt\",\n   \"component\": \"laboris culpa e\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Not Found",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"status\": {\n  \"code\": \"eiusmod anim magna dolor\",\n  \"description\": \"nostrud quis qui\"\n },\n \"exceptionDetails\": [\n  {\n   \"code\": \"Ut nisi non esse\",\n   \"description\": \"pariatur est Duis veniam deserunt\",\n   \"component\": \"laboris culpa e\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Forbidden",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"status\": {\n  \"code\": \"eiusmod anim magna dolor\",\n  \"description\": \"nostrud quis qui\"\n },\n \"exceptionDetails\": [\n  {\n   \"code\": \"Ut nisi non esse\",\n   \"description\": \"pariatur est Duis veniam deserunt\",\n   \"component\": \"laboris culpa e\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Internal Server Error",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"status\": {\n  \"code\": \"eiusmod anim magna dolor\",\n  \"description\": \"nostrud quis qui\"\n },\n \"exceptionDetails\": [\n  {\n   \"code\": \"Ut nisi non esse\",\n   \"description\": \"pariatur est Duis veniam deserunt\",\n   \"component\": \"laboris culpa e\"\n  }\n ]\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"status\": {\n  \"code\": \"eiusmod anim magna dolor\",\n  \"description\": \"nostrud quis qui\"\n },\n \"exceptionDetails\": [\n  {\n   \"code\": \"Ut nisi non esse\",\n   \"description\": \"pariatur est Duis veniam deserunt\",\n   \"component\": \"laboris culpa e\"\n  }\n ]\n}"
+				},
+				{
+					"name": "The operation was successful.",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "X-IBM-Client-Id",
+								"value": "<API Key>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "traceId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de la petición. Ejemplo: 53ce929d0e0e4736",
+								"key": "parentId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de consumidor. Ejemplo: SMP",
+								"key": "consumerId",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) Identificador de funcionalidad. Ejemplo: funcionalidad01",
+								"key": "funcionalidadId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del servicio invocado.",
+								"key": "serviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del módulo de la aplicación consumidora.",
+								"key": "moduloId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del canal desde donde se originó la transacción. Ejemplo: \"01\" (ATM)",
+								"key": "channelId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador único de la transacción del canal desde donde se invoca el servicio. Ejemplo: a1d1561asd151sd41",
+								"key": "messageId",
+								"value": "<string>"
+							},
+							{
+								"description": "Fecha y hora en la se origina la transacción en el consumidor.",
+								"key": "timeStamp",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "countryCode",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción.",
+								"key": "groupMember",
+								"value": "<string>"
+							},
+							{
+								"description": "Código del país donde se originó la transacción. Ejemplo: \"22\" (Inkaframa)",
+								"key": "referenceNumber",
+								"value": "<string>"
+							},
+							{
+								"description": "Tipo de llave para identificar el PAN (aplica para operaciones PCI). Ejemplo: \"1\"",
+								"key": "cardIdType",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador de la red a la que pertenece el usuario.",
+								"key": "netId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario que realizó la transacción.",
+								"key": "userId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del usuario supervisor que autoriza la transacción.",
+								"key": "supervisorId",
+								"value": "<string>"
+							},
+							{
+								"description": "Identificador del dispositivo de donde se realizó la transacción. Ejemplo: Para ventanilla la IP de la OC, para ATM el código del cajero, etc.",
+								"key": "deviceId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP o Hostname del servidor de donde se realizó la transacción.",
+								"key": "serverId",
+								"value": "<string>"
+							},
+							{
+								"description": "Código de la sucursal donde se realizó la transacción.",
+								"key": "branchId",
+								"value": "<string>"
+							},
+							{
+								"description": "IP donde se realizo la transacción",
+								"key": "ipOrigen",
+								"value": "<string>"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardId\": \"<string>\",\n    \"operation\": [\n        {\n            \"finalStatusCode\": \"<string>\",\n            \"mobileOperatorCode\": \"<string>\",\n            \"mobilePhoneNumber\": \"<string>\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customer/:customerId/phone-provider",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customer",
+								":customerId",
+								"phone-provider"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"processDate\": \"00100112523\",\n \"operation\": [\n  {\n   \"finalStatusCode\": \"ip\",\n   \"mobileOperatorCode\": \"nisi aliqua ut esse\",\n   \"mobilePhoneNumber\": \"dolor\"\n  }\n ]\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-IBM-Client-Id",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "<API Key>",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/issued-device-administration-notification/v1.0",
+			"type": "string"
+		}
+	]
+}

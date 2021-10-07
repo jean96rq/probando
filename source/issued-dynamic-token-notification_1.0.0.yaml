@@ -1,0 +1,827 @@
+swagger: '2.0'
+info:
+  title: issued-dynamic-token-notification
+  x-ibm-name: issued-dynamic-token-notification
+  version: 1.0.0
+  description: issued-dynamic-token-notification
+schemes:
+  - https
+basePath: /issued-dynamic-token-notification/v1
+security:
+  - custom.clientId: []
+    custom.secret: []
+    oAuth: []
+securityDefinitions:
+  custom.clientId:
+    type: apiKey
+    name: Ocp-Apim-Subscription-Key
+    in: header
+    x-key-type: client_id
+  custom.secret:
+    type: apiKey
+    name: Ocp-Apim-Subscription-Secret
+    in: header
+    x-key-type: client_secret
+  oAuth:
+    type: oauth2
+    flow: password
+    x-ibm-oauth-provider: oauthproviderh1
+    tokenUrl: 'https://$(catalog.url)/oauthproviderh1/oauth2/token'
+    scopes:
+      scopeConsultaH1: Scope por defecto
+      scopeTransaccionH1: Scope Transaccion
+x-ibm-configuration:
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+      - set-variable:
+          version: 2.0.0
+          title: Clean Header
+          actions:
+            - clear: message.headers.Ocp-Apim-Subscription-Key
+            - clear: message.headers.Ocp-Apim-Subscription-Secret
+            - clear: message.headers.Authorization
+      - operation-switch:
+          version: 2.0.0
+          title: operation-switch
+          case:
+            - operations:
+                - deleteEnrollmentCustomer
+              execute:
+                - set-variable:
+                    version: 2.0.0
+                    title: Config Header
+                    actions:
+                      - set: message.headers.x-global-transaction-id
+                        value: $(session.globalTransactionID)
+                        type: string
+                - invoke:
+                    version: 2.1.0
+                    title: Invoke ACE enrollment-customer
+                    backend-type: detect
+                    header-control:
+                      type: blocklist
+                      values: []
+                    parameter-control:
+                      type: allowlist
+                      values: []
+                    http-version: HTTP/1.1
+                    timeout: 12
+                    verb: DELETE
+                    chunked-uploads: false
+                    cache-response: protocol
+                    cache-ttl: 900
+                    stop-on-error:
+                      - ConnectionError
+                      - OperationError
+                    websocket-upgrade: false
+                    target-url: >-
+                      $(TARGET_ISSUED_DYNAMIC_TOKEN_NOTIFICATION)$(request.path)$(request.search)
+                    tls-profile: 'tls-client-profile-default:1.0.0'
+                    inject-proxy-headers: false
+                    follow-redirects: true
+                - set-variable:
+                    version: 2.0.0
+                    title: Config NewRelic
+                    actions:
+                      - set: CONFIG-AUDIT
+                        value: $(CONFIG_AUDIT_DELETE_ENROLLMENT_CUSTOMER)
+                        type: string
+                      - set: SEND-NEWRELIC
+                        value: true
+                        type: boolean
+            - operations:
+                - getEnrollmentCustomer
+              execute:
+                - set-variable:
+                    version: 2.0.0
+                    title: Config Header
+                    actions:
+                      - set: message.headers.x-global-transaction-id
+                        value: $(session.globalTransactionID)
+                        type: string
+                - invoke:
+                    version: 2.1.0
+                    title: Invoke ACE enrollment-customer
+                    backend-type: detect
+                    header-control:
+                      type: blocklist
+                      values: []
+                    parameter-control:
+                      type: allowlist
+                      values: []
+                    http-version: HTTP/1.1
+                    timeout: 12
+                    verb: DELETE
+                    chunked-uploads: false
+                    cache-response: protocol
+                    cache-ttl: 900
+                    stop-on-error:
+                      - ConnectionError
+                      - OperationError
+                    websocket-upgrade: false
+                    target-url: >-
+                      $(TARGET_ISSUED_DYNAMIC_TOKEN_NOTIFICATION)$(request.path)$(request.search)
+                    tls-profile: 'tls-client-profile-default:1.0.0'
+                    inject-proxy-headers: false
+                    follow-redirects: true
+                - set-variable:
+                    version: 2.0.0
+                    title: Config NewRelic
+                    actions:
+                      - set: CONFIG-AUDIT
+                        value: $(CONFIG_AUDIT_GET_ENROLLMENT_CUSTOMER)
+                        type: string
+                      - set: SEND-NEWRELIC
+                        value: true
+                        type: boolean
+          otherwise: []
+    catch:
+      - default:
+          - gatewayscript:
+              version: 2.0.0
+              title: Send New Relic?
+              description: Prepara condicion para entrar al Global Policy
+              source: |-
+                if (context.get("SEND-NEWRELIC-ERROR")) {
+                context.set("message.headers.gp",true);
+                }
+          - switch:
+              version: 2.0.0
+              title: new-relic-switch
+              case:
+                - condition: $header("gp")
+                  execute:
+                    - log:
+                        version: 2.0.0
+                        title: Get log
+                        mode: gather-only
+                    - gatewayscript:
+                        version: 2.0.0
+                        title: Prepare IBKREC
+                        source: |-
+                          var apim = require('apim');
+
+                          try {
+
+                              var sendNewRelicError = apim.getvariable("SEND-NEWRELIC-ERROR");
+                              
+                              if (sendNewRelicError) {
+                                  
+                                  apim.setvariable("log.ibkrec.traceId",apim.getvariable('request.headers.traceId'));
+                                  apim.setvariable("log.ibkrec.parentId", apim.getvariable('request.headers.parentId'));
+                                  apim.setvariable("log.ibkrec.funcionalidadId", apim.getvariable('request.headers.funcionalidadId'));
+                                  apim.setvariable("log.ibkrec.timeStamp", apim.getvariable('request.headers.timeStamp'));
+                                  apim.setvariable("log.ibkrec.consumerId", apim.getvariable('request.headers.consumerId'));
+                                  apim.setvariable("log.ibkrec.messageId", apim.getvariable('request.headers.messageId'));
+                                  apim.setvariable("log.ibkrec.cardIdType", apim.getvariable('request.headers.cardIdType'));
+                                  apim.setvariable("log.ibkrec.moduloId", apim.getvariable('request.headers.moduloId'));
+                                  apim.setvariable("log.ibkrec.userId", apim.getvariable('request.headers.userId'));
+                                  apim.setvariable("log.ibkrec.supervisorId", apim.getvariable('request.headers.supervisorId'));
+                                  apim.setvariable("log.ibkrec.netId", apim.getvariable('request.headers.netId'));
+                                  apim.setvariable("log.ibkrec.deviceId", apim.getvariable('request.headers.deviceId'));
+                                  apim.setvariable("log.ibkrec.countryCode", apim.getvariable('request.headers.countryCode'));
+                                  apim.setvariable("log.ibkrec.branchId", apim.getvariable('request.headers.branchId'));
+                                  apim.setvariable("log.ibkrec.serviceId", apim.getvariable('request.headers.serviceId'));
+                                  apim.setvariable("log.ibkrec.groupMember", apim.getvariable('request.headers.groupMember'));
+                                  apim.setvariable("log.ibkrec.referenceNumber", apim.getvariable('request.headers.referenceNumber'));
+                                  apim.setvariable("log.ibkrec.serverId", apim.getvariable('request.headers.serverId'));
+                                  apim.setvariable("log.ibkrec.channelId", apim.getvariable('request.headers.channelId'));
+                                  
+                                  apim.setvariable("log.ibkrecerror.errorName", apim.getvariable('error.name'));
+                                  apim.setvariable("log.ibkrecerror.errorMessage", apim.getvariable('error.message'));
+                                  apim.setvariable("log.ibkrecstatus.code", apim.getvariable('error.status.code'));
+                                  apim.setvariable("log.ibkrecstatus.reason", apim.getvariable('error.status.reason'));
+                              }                                    
+
+                          } catch (err) {
+                              if (apim.getvariable("debugGP")) {
+                                  apim.error('Error Global-Policy-Error', 500, 'Internal Error Global-Policy-Error', err.stack);
+                              } else {
+                                  console.error("Error Global-Policy-Error," + err.stack);
+                              }
+                          }
+                    - log:
+                        version: 2.0.0
+                        title: Send log
+                        mode: send-only
+                - otherwise: []
+          - set-variable:
+              version: 2.0.0
+              title: Clean New Relic
+              actions:
+                - clear: CONFIG-AUDIT
+                - clear: message.headers.gp
+          - gatewayscript:
+              version: 2.0.0
+              title: Response Error
+              source: "var apim = require('apim');\r\n\r\nif (apim.getvariable(\"debugGP\")) {\r\n    apim.setvariable('message.headers.debugGP','ibk-gperror:2.0.1');\r\n}\r\n\r\n// Variables de error API\r\nlet errorName = apim.getvariable('error.name');\r\n//let errorMessage = apim.getvariable('error.message');\r\nlet codeHttp = apim.getvariable('error.status.code');\r\nlet reasonHttp = apim.getvariable('error.status.reason');\r\n\r\n// Validacion de tipo de error\r\nswitch(errorName) {\r\n  case 'ConnectionError':\r\n    generateMessageError(codeHttp,reasonHttp,301,'Error al intentar invocar el servicio externo.'); break;\r\n  case 'PropertyError':\r\n    generateMessageError(codeHttp,reasonHttp,204,'Servicio no configurado.'); break;\r\n  case 'JavaScriptError':\r\n    generateMessageError(codeHttp,reasonHttp,407,'Ocurrió un error al procesar el mensaje.'); break;\r\n  case 'ValidateError':\r\n    generateMessageError(codeHttp,reasonHttp,407,'Ocurrió un error al procesar el mensaje.'); break;\r\n  case 'OperationError':\r\n    generateMessageErrorValidate(codeHttp,reasonHttp,407,'Ocurrió un error al procesar el mensaje.'); break;\r\n  default:\r\n    generateMessageError(500,'Internal Server Error',411,'Ocurrió un error inesperado.'); break;\r\n}\r\n    \r\n// Responde cabecera de error IFX\r\nfunction generateMessageError(codeHttp,reasonHttp,busResponseCode,busResponseMessage){\r\n    \r\n    apim.setvariable('message.headers','','clear');\r\n    apim.setvariable('message.body','','clear');\r\n    \r\n    apim.setvariable('message.headers.busResponseCode', busResponseCode);\r\n    apim.setvariable('message.headers.busResponseMessage', busResponseMessage);\r\n    \r\n    apim.setvariable('message.status.code', codeHttp);\r\n    apim.setvariable('message.status.reason', reasonHttp);\r\n    \r\n    apim.output('application/json');\r\n    \r\n}\r\n\r\n// Valida si retorna mensaje ACE o no\r\nfunction generateMessageErrorValidate(codeHttp,reasonHttp,busResponseCode,busResponseMessage){\r\n\r\n    // Valida si retorna header de ACE, si no existiera se coloca header, caso contrario devuelve el mensaje de ACE\r\n    let busResponse = apim.getvariable('message.headers.busResponseCode');\r\n    if( typeof busResponse == 'undefined' ){\r\n    \tgenerateMessageError(codeHttp,reasonHttp,busResponseCode,busResponseMessage);\r\n    }\r\n    \r\n}\r\n\r\n"
+  properties:
+    CONFIG_AUDIT_DELETE_ENROLLMENT_CUSTOMER:
+      value: >-
+        {"redactParameters":{"anywhere":{"full":["Ocp-Apim-Subscription-Key","Ocp-Apim-Subscription-Secret","Authorization"],"cc":[]},"path":{"full":[],"cc":[]}},"redactInputBody":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"redactBodyRequest01":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"redactRensponseBody":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"redactReplyBody":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"structuresAudit":{"parameters":true,"request_http_headers":true,"response_http_headers":true,"request_body":true,"response_body":true,"input_body":true,"reply_body":true,"log":true},"add":{"api_name":"log.api_name","org_name":"log.org_name","input_body":"input_body_plain","request_body":"request_body_plain","response_body":"response_body_plain","reply_body":"reply_body_plain"}}
+      description: Estructura Json para envio a New Relic
+      encoded: false
+    DOMAIN_OPENSHIFT:
+      value: ''
+      description: Dominio del OpenShift segun ambiente.
+      encoded: false
+    TARGET_ISSUED_DYNAMIC_TOKEN_NOTIFICATION:
+      value: 'https://issued-dynamic-token-notification-https'
+      description: >-
+        Target para el IS issued-dynamic-token-notification. Se complementara
+        con el dominio por ambiente.
+        https://issued-dynamic-token-notification-https
+      encoded: false
+    CONFIG_AUDIT_GET_ENROLLMENT_CUSTOMER:
+      value: >-
+        {"redactParameters":{"anywhere":{"full":["Ocp-Apim-Subscription-Key","Ocp-Apim-Subscription-Secret","Authorization"],"cc":[]},"path":{"full":[],"cc":[]}},"redactInputBody":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"redactBodyRequest01":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"redactRensponseBody":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"redactReplyBody":{"anywhere":{"full":[],"cc":[]},"path":{"full":[],"cc":[]}},"structuresAudit":{"parameters":true,"request_http_headers":true,"response_http_headers":true,"request_body":true,"response_body":true,"input_body":true,"reply_body":true,"log":true},"add":{"api_name":"log.api_name","org_name":"log.org_name","input_body":"input_body_plain","request_body":"request_body_plain","response_body":"response_body_plain","reply_body":"reply_body_plain"}}
+      description: Estructura Json para envìo a New Relic.
+  application-authentication:
+    certificate: false
+  catalogs:
+    int-com-dev:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-com-dev.apps.ocpsbx.grupoib.local:443'
+    int-smp-dev:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-smp-dev.apps.ocpsbx.grupoib.local:443'
+    int-bpi-dev:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-bpi-dev.apps.ocpsbx.grupoib.local:443'
+    int-com-sit:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-com-sit.apps.ocpsbx.grupoib.local:443'
+    int-smp-sit:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-smp-sit.apps.ocpsbx.grupoib.local:443'
+    int-bpi-sit:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-bpi-sit.apps.ocpsbx.grupoib.local:443'
+    int-com-uat:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-com-uat.apps.ocpsbx.grupoib.local:443'
+    int-smp-uat:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-smp-uat.apps.ocpsbx.grupoib.local:443'
+    int-bpi-uat:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-bpi-uat.apps.ocpsbx.grupoib.local:443'
+    int-com-prd:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-com-prd.apps.ocpsbx.grupoib.local:443'
+    int-smp-prd:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-smp-prd.apps.ocpsbx.grupoib.local:443'
+    int-bpi-prd:
+      properties:
+        DOMAIN_OPENSHIFT: '-ace-bpi-prd.apps.ocpsbx.grupoib.local:443'
+  activity-log:
+    success-content: payload
+    error-content: payload
+    enabled: true
+  buffering: true
+parameters:
+  trace-id:
+    name: traceId
+    type: string
+    required: true
+    in: header
+    description: 'Identificador de la petición. Ejemplo: 53ce929d0e0e4736'
+  parent-id:
+    name: parentId
+    type: string
+    required: true
+    in: header
+    description: 'Identificador de la petición. Ejemplo: 53ce929d0e0e4736'
+  consumer-id:
+    name: consumerId
+    type: string
+    required: true
+    in: header
+    description: 'Identificador de consumidor. Ejemplo: SMP'
+  funcionalidad-id:
+    name: funcionalidadId
+    type: string
+    required: true
+    in: header
+    description: 'Identificador de funcionalidad. Ejemplo: funcionalidad01'
+  service-id:
+    name: serviceId
+    type: string
+    required: false
+    in: header
+    description: Identificador del servicio invocado.
+  modulo-id:
+    name: moduloId
+    type: string
+    required: false
+    in: header
+    description: Identificador del módulo de la aplicación consumidora.
+  channel-id:
+    name: channelId
+    type: string
+    required: false
+    in: header
+    description: >-
+      Código del canal desde donde se originó la transacción. Ejemplo: "01"
+      (ATM)
+  message-id:
+    name: messageId
+    type: string
+    required: false
+    in: header
+    description: >-
+      Identificador único de la transacción del canal desde donde se invoca el
+      servicio. Ejemplo: a1d1561asd151sd41
+  timestamp:
+    name: timeStamp
+    type: string
+    required: false
+    in: header
+    description: Fecha y hora en la se origina la transacción en el consumidor.
+  country-code:
+    name: countryCode
+    type: string
+    required: false
+    in: header
+    description: Código del país donde se originó la transacción.
+  group-member:
+    name: groupMember
+    type: string
+    required: false
+    in: header
+    description: Código del país donde se originó la transacción.
+  reference-number:
+    name: referenceNumber
+    type: string
+    required: false
+    in: header
+    description: 'Código del país donde se originó la transacción. Ejemplo: "22" (Inkaframa)'
+  card-id-type:
+    name: cardIdType
+    type: string
+    required: false
+    in: header
+    description: >-
+      Tipo de llave para identificar el PAN (aplica para operaciones PCI).
+      Ejemplo: "1" 
+  net-id:
+    name: netId
+    type: string
+    required: false
+    in: header
+    description: Identificador de la red a la que pertenece el usuario.
+  user-id:
+    name: userId
+    type: string
+    required: false
+    in: header
+    description: Identificador del usuario que realizó la transacción.
+  supervisor-id:
+    name: supervisorId
+    type: string
+    required: false
+    in: header
+    description: Identificador del usuario supervisor que autoriza la transacción.
+  device-id:
+    name: deviceId
+    type: string
+    required: false
+    in: header
+    description: >-
+      Identificador del dispositivo de donde se realizó la transacción. Ejemplo:
+      Para ventanilla la IP de la OC, para ATM el código del cajero, etc.
+  server-id:
+    name: serverId
+    type: string
+    required: false
+    in: header
+    description: IP o Hostname del servidor de donde se realizó la transacción.
+  branch-id:
+    name: branchId
+    type: string
+    required: false
+    in: header
+    description: Código de la sucursal donde se realizó la transacción.
+  ip-origen:
+    name: ipOrigen
+    type: string
+    required: false
+    in: header
+    description: IP donde se realizo la transacción
+definitions:
+  rs-deleteEnrollmentCustomer:
+    type: object
+    properties:
+      processDate:
+        type: string
+        description: Fecha actual
+        example: '2021-10-10 15:27:37.977320'
+      operation:
+        type: array
+        items:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Estado del servicio
+              example: '002'
+            customerId:
+              type: string
+              description: Còdigo ùnico del cliente
+              example: '0060204733'
+            mobilePhoneNumber:
+              type: string
+              description: Nùmero de telèfono
+              example: '51992621437'
+            error:
+              type: object
+              properties:
+                errorId:
+                  type: string
+                  description: Estado del servicio
+                  example: '002'
+                code:
+                  type: string
+                  description: Descripciòn de error
+                  example: NO SE ENCONTRO AFILIACION
+                description:
+                  type: string
+                  description: Estado del servicio y descripciòn de error
+                  example: 002 NO SE ENCONTRO AFILIACION
+        minItems: 0
+  rs-getEnrollmentCustomer:
+    type: object
+    properties:
+      processDate:
+        type: string
+        description: Fecha actual
+        example: '2021-10-10 15:27:37.977320'
+      operation:
+        type: array
+        items:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Estado del servicio
+              example: '002'
+            customerId:
+              type: string
+              description: Còdigo ùnico del cliente
+              example: '0060204733'
+            mobilePhoneNumber:
+              type: string
+              description: Nùmero de telèfono
+              example: '51992621437'
+            error:
+              type: object
+              properties:
+                errorId:
+                  type: string
+                  description: Estado del servicio
+                  example: '002'
+                code:
+                  type: string
+                  description: Descripciòn de error
+                  example: NO SE ENCONTRO
+                description:
+                  type: string
+                  description: Estado del servicio y descripciòn de error
+                  example: 002 NO SE ENCONTRO
+        minItems: 0
+paths:
+  '/enrollment/customer/{customerId}':
+    delete:
+      operationId: deleteEnrollmentCustomer
+      responses:
+        '200':
+          description: The operation was successful.
+          schema:
+            $ref: '#/definitions/rs-deleteEnrollmentCustomer'
+          headers:
+            busResponseCode:
+              type: integer
+              format: int32
+              description: Codigo de respuesta técnica.
+            busResponseMessage:
+              type: string
+              description: Detalle de respuesta técnica.
+            srvResponseCode:
+              type: string
+              description: Código de respuesta del proveedor.
+            srvResponseMessage:
+              type: string
+              description: Detalle de respuesta del proveedor.
+            X-Global-Transaction-ID:
+              type: string
+              description: 'Identificador de mensaje interno, generado por la transacción.'
+            messageId:
+              type: string
+              description: Identificador de mensaje enviado por el cliente.
+        '209':
+          $ref: '#/responses/ErrorGen'
+        '401':
+          $ref: '#/responses/BadRequest'
+        '403':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+        '500':
+          $ref: '#/responses/InternalServerError'
+        '503':
+          $ref: '#/responses/UnavailableService'
+      produces:
+        - application/json
+      description: Retrieve options
+      parameters:
+        - name: mobilePhoneProvider
+          in: query
+          required: true
+          description: 'Código de operador. Ejemplo: M.'
+          type: string
+          enum:
+            - M
+            - C
+            - E
+        - name: mobilePhoneNumber
+          in: query
+          required: true
+          description: 'Número de celular anteponiendo 51. Ejemplo: 51992621345.'
+          type: string
+        - name: customerId
+          in: path
+          required: true
+          description: 'Código único de cliente. Ejemplo : 69456127'
+          type: string
+        - $ref: '#/parameters/trace-id'
+        - $ref: '#/parameters/parent-id'
+        - $ref: '#/parameters/consumer-id'
+        - $ref: '#/parameters/funcionalidad-id'
+        - $ref: '#/parameters/service-id'
+        - $ref: '#/parameters/modulo-id'
+        - $ref: '#/parameters/channel-id'
+        - $ref: '#/parameters/message-id'
+        - $ref: '#/parameters/timestamp'
+        - $ref: '#/parameters/country-code'
+        - $ref: '#/parameters/group-member'
+        - $ref: '#/parameters/reference-number'
+        - $ref: '#/parameters/card-id-type'
+        - $ref: '#/parameters/net-id'
+        - $ref: '#/parameters/user-id'
+        - $ref: '#/parameters/supervisor-id'
+        - $ref: '#/parameters/device-id'
+        - $ref: '#/parameters/server-id'
+        - $ref: '#/parameters/branch-id'
+        - $ref: '#/parameters/ip-origen'
+      consumes: []
+      security:
+        - custom.clientId: []
+          custom.secret: []
+          oAuth:
+            - scopeConsultaH1
+    get:
+      operationId: getEnrollmentCustomer
+      responses:
+        '200':
+          description: The operation was successful.
+          schema:
+            $ref: '#/definitions/rs-getEnrollmentCustomer'
+          headers:
+            busResponseCode:
+              type: integer
+              format: int32
+              description: Codigo de respuesta técnica.
+            busResponseMessage:
+              type: string
+              description: Detalle de respuesta técnica.
+            srvResponseCode:
+              type: string
+              description: Código de respuesta del proveedor.
+            srvResponseMessage:
+              type: string
+              description: Detalle de respuesta del proveedor.
+            X-Global-Transaction-ID:
+              type: string
+              description: 'Identificador de mensaje interno, generado por la transacción.'
+            messageId:
+              type: string
+              description: Identificador de mensaje enviado por el cliente.
+        '209':
+          $ref: '#/responses/ErrorGen'
+        '401':
+          $ref: '#/responses/BadRequest'
+        '403':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+        '500':
+          $ref: '#/responses/InternalServerError'
+        '503':
+          $ref: '#/responses/UnavailableService'
+      produces:
+        - application/json
+      description: Retrieve options
+      parameters:
+        - name: mobilePhoneNumber
+          in: query
+          required: true
+          description: 'Número de celular anteponiendo 51. Ejemplo: 51992621345.'
+          type: string
+        - name: customerId
+          in: path
+          required: true
+          description: 'Código único de cliente. Ejemplo : 69456127'
+          type: string
+        - $ref: '#/parameters/trace-id'
+        - $ref: '#/parameters/parent-id'
+        - $ref: '#/parameters/consumer-id'
+        - $ref: '#/parameters/funcionalidad-id'
+        - $ref: '#/parameters/service-id'
+        - $ref: '#/parameters/modulo-id'
+        - $ref: '#/parameters/channel-id'
+        - $ref: '#/parameters/message-id'
+        - $ref: '#/parameters/timestamp'
+        - $ref: '#/parameters/country-code'
+        - $ref: '#/parameters/group-member'
+        - $ref: '#/parameters/reference-number'
+        - $ref: '#/parameters/card-id-type'
+        - $ref: '#/parameters/net-id'
+        - $ref: '#/parameters/user-id'
+        - $ref: '#/parameters/supervisor-id'
+        - $ref: '#/parameters/device-id'
+        - $ref: '#/parameters/server-id'
+        - $ref: '#/parameters/branch-id'
+        - $ref: '#/parameters/ip-origen'
+      consumes: []
+      security:
+        - custom.clientId: []
+          custom.secret: []
+          oAuth:
+            - scopeConsultaH1
+responses:
+  ErrorGen:
+    description: OK. Ejecución con error funcional
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+  BadRequest:
+    description: Baq request.
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+  Unauthorized:
+    description: Unauthorized.
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+  Forbidden:
+    description: Forbidden.
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+  NotFound:
+    description: Not Found.
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+  InternalServerError:
+    description: Internal Server Error.
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+  UnavailableService:
+    description: OK. Ejecución con error funcional
+    headers:
+      busResponseCode:
+        type: integer
+        format: int32
+        description: Codigo de respuesta técnica.
+      busResponseMessage:
+        type: string
+        description: Detalle de respuesta técnica.
+      srvResponseCode:
+        type: string
+        description: Código de respuesta del proveedor.
+      srvResponseMessage:
+        type: string
+        description: Detalle de respuesta del proveedor.
+      X-Global-Transaction-ID:
+        type: string
+        description: 'Identificador de mensaje interno, generado por la transacción.'
+      messageId:
+        type: string
+        description: Identificador de mensaje enviado por el cliente.
+produces:
+  - application/json
+consumes:
+  - application/json
